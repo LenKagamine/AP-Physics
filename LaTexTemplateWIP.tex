@@ -3,33 +3,46 @@
 \usepackage{multicol}
 \usepackage[margin=1in]{geometry}
 \renewcommand{\thesection}{\Roman{section}} 
+\usepackage{sectsty}
+\allsectionsfont{\mdseries}
 
 \begin{document}  
 
-\centering
+\begin{center}
 \huge
-\uppercase{Analysis of Soup Can Roll}
+\textsc{Analysis of Soup Can Roll}
 {\large\centering
 \newline
-M. Kim
 \newline
-A. Lee
-\newline
-D. Pekar
-\newline
-K. Pulogarajah
-\newline
-G. Winch\par}
+\textsc{M. Kim\\}
+\textit{\footnotesize Data Processing\\}
+\large
+\textsc{A. Lee\\}
+\textit{\footnotesize Lab Technician\\}
+\large
+\textsc{D. Pekar\\}
+\textit{\footnotesize Paper Formatting\\}
+\large
+\textsc{K. Pulogarajah\\}
+\textit{\footnotesize Token Brown Guy\\}
+\large
+\textsc{G. Winch\\}
+\textit{\footnotesize The Entire Lab\\}
+\vspace{3mm}
+\footnotesize
+(Received 5 October 2015)\\}
+\end{center}
 
+\footnotesize
+Thisiswheretheastractgoes
+\large
 \begin{multicols}{2}
-\section{Abstract}
+\begin{center}
+\section{\textsc{Abstract}}
+\end{center}
 Section content
 
 
-\paragraph{"paragraph"}
-Paragraph content
-\subparagraph{"subparagraph"}
-subparagraph content
 \end{multicols}
 \end{document}
 
