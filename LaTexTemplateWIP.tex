@@ -1,26 +1,39 @@
-\documentclass[12pt,notitlepage,twocolumn,twoside,draft]{article} 
+\documentclass[12pt,notitlepage,twoside,draft]{article} 
 
+\usepackage{multicol}
 \usepackage[margin=1in]{geometry}
 \renewcommand{\thesection}{\Roman{section}} 
 
 \begin{document}  
-\
-\begin{abstract}  
-Abstract goes here
-\part{Abstract}
-Part content
+
+\centering
+\huge
+\uppercase{Analysis of Soup Can Roll}
+{\large\centering
+\newline
+M. Kim
+\newline
+A. Lee
+\newline
+D. Pekar
+\newline
+K. Pulogarajah
+\newline
+G. Winch\par}
+
+\begin{multicols}{2}
 \section{Abstract}
 Section content
-\subsection{"subsection"}
-Subsection content
-\subsubsection{"subsubsection"}
-subsubsection content
+
+
 \paragraph{"paragraph"}
 Paragraph content
 \subparagraph{"subparagraph"}
 subparagraph content
-\end{abstract}  
+\end{multicols}
 \end{document}
 
 %each section is section (1 2 3 etc)
 %abstract is subparagraph
+
+%title is done
