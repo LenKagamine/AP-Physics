@@ -1,2 +1,6 @@
-# Lab-Report-Template
-LaTeX template of AP Physics lab report
+# AP Physics Scripts
+Code written during the AP Physics course.
+
+- LaTeX template of lab report
+- Matlab script for interpolation of Soup Can Roll data (Lab 1)
+- C++ 2D collision simulator (Lab 1A)
