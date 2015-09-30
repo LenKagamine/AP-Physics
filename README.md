@@ -1,4 +1,4 @@
-# AP Physics Scripts
+# AP Physics Repo
 Code written during the AP Physics course.
 
 - LaTeX template of lab report
