@@ -5,6 +5,8 @@
 \renewcommand{\thesection}{\Roman{section}} 
 \usepackage{sectsty}
 \allsectionsfont{\mdseries}
+\usepackage{microtype}
+\usepackage{mathpazo}
 
 \begin{document}  
 
@@ -34,19 +36,24 @@
 \end{center}
 
 \footnotesize
-Thisiswheretheastractgoes
+\begin{quotation}
+\addtolength{\oddsidemargin}{-.875in}
+\addtolength{\evensidemargin}{-.875in}
+\addtolength{\textwidth}{1.75in}
+
+\addtolength{\topmargin}{-.875in}
+\addtolength{\textheight}{1.75in}
+ABSTRACT TEXT
+\end{quotation}
 \large
-\begin{multicols}{2}
+\begin{multicols*}{2}
 \begin{center}
-\section{\textsc{Abstract}}
+\section{\textsc{Observation}}
 \end{center}
 Section content
 
-
-\end{multicols}
+\end{multicols*}
 \end{document}
 
 %each section is section (1 2 3 etc)
 %abstract is subparagraph
-
-%title is done
