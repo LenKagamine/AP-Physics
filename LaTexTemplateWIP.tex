@@ -1,4 +1,4 @@
-\documentclass[12pt,notitlepage,twoside,draft]{article} 
+\documentclass[12pt,notitlepage,twoside]{article} 
 
 \usepackage{multicol}
 \usepackage[margin=1in]{geometry}
@@ -7,6 +7,12 @@
 \allsectionsfont{\mdseries}
 \usepackage{microtype}
 \usepackage{mathpazo}
+\usepackage{amsmath,array,graphicx}
+\usepackage{tabu}
+\usepackage{xcolor}
+\usepackage{dcolumn}
+
+\newcolumntype{A}{D{.}{.}{2.5}}
 
 \begin{document}  
 
@@ -43,6 +49,9 @@
 
 \addtolength{\topmargin}{-.875in}
 \addtolength{\textheight}{1.75in}
+
+%got to fix this so that the margins are correct
+
 ABSTRACT TEXT
 \end{quotation}
 \large
@@ -50,10 +59,30 @@ ABSTRACT TEXT
 \begin{center}
 \section{\textsc{Observation}}
 \end{center}
-Section content
-
+Section content\\
 \end{multicols*}
+
+\begin{table}
+\begin{minipage}[b]{0.5\linewidth}\centering
+\normalsize
+\extrarowsep=_2pt^2pt
+     \begin{tabu}to\linewidth{|[2.75pt gray]c|c|c|c|[2.75pt gray]}
+    \tabucline[2.75pt gray]-
+ \textsc{Index} & \textsc{Distance}(m) & \textsc{Velocity}(m s$^{-1}$) & \textsc{Acceleration}(m s$^{-2}$) \\ \hline
+1 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
+2 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
+3 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
+    \tabucline[2.75pt gray]-
+    \end{tabu}
+\end{minipage}
+\hspace{0.5cm}
+\end{table}
+
+
+
 \end{document}
 
 %each section is section (1 2 3 etc)
 %abstract is subparagraph
+
+%title is done
