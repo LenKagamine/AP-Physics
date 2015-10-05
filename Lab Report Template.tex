@@ -11,10 +11,22 @@
 \usepackage{tabu}
 \usepackage{xcolor}
 \usepackage{dcolumn}
+\usepackage{blindtext}
+\usepackage{ragged2e}
+\usepackage{capt-of}
+\usepackage[font={small}]{caption}
+\usepackage{fancyhdr}
 
 \newcolumntype{A}{D{.}{.}{2.5}}
+\graphicspath{ {images/} }
+
+\chead[evek]{odd}
 
 \begin{document}  
+
+\pagenumbering{gobble}
+
+\thispagestyle{empty}
 
 \begin{center}
 \huge
@@ -56,26 +68,44 @@ ABSTRACT TEXT
 \end{quotation}
 \large
 \begin{multicols*}{2}
-\begin{center}
-\section{\textsc{Observation}}
-\end{center}
-Section content\\
+	\begin{center}
+		\section{\textsc{Observation}}
+	\end{center}
+	Section content
+	\vspace{5mm}\\
+	\small
+	\extrarowsep=_3pt^3pt
+	\begin{tabu}to\linewidth{|[2.75pt gray]@{}c@{}|X[1,c]|X[1,c]|X[1,c]|[2.75pt gray]}
+		\tabucline[2.75pt gray]-
+		\textsc{Index} & \textsc{Distance} \newline (m) & \textsc{Velocity} \newline (m s$^{-1}$) & \textsc{Acceleration} \newline (m s$^{-2}$) \\ \hline
+		1 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
+		2 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
+		3 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
+		\tabucline[2.75pt gray]-
+	\end{tabu}
+	\captionof{figure}{\small dakfig1}\label{fig:a}
+	\vspace{2mm}
+	
+	\normalsize
+	\blindtext
+	\begingroup
+	\includegraphics[width=10cm]{velocity}
+	\footnotesize
+	\captionof{figure}{\small DakCamptio}\label{fig:c}
+	\endgroup
+	\normalsize
+	\vspace{5mm}
+	lahlah
+	\blindtext[20]
+	
 \end{multicols*}
 
+
 \begin{table}
-\begin{minipage}[b]{0.5\linewidth}\centering
-\normalsize
-\extrarowsep=_2pt^2pt
-     \begin{tabu}to\linewidth{|[2.75pt gray]c|c|c|c|[2.75pt gray]}
-    \tabucline[2.75pt gray]-
- \textsc{Index} & \textsc{Distance}(m) & \textsc{Velocity}(m s$^{-1}$) & \textsc{Acceleration}(m s$^{-2}$) \\ \hline
-1 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
-2 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
-3 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
-    \tabucline[2.75pt gray]-
-    \end{tabu}
-\end{minipage}
-\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		
+	\end{minipage}
+	\hspace{0.5cm}
 \end{table}
 
 
