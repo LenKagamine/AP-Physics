@@ -1,8 +1,8 @@
-\documentclass[12pt,notitlepage,twoside]{article} 
-
+\documentclass[12pt,notitlepage,twoside]{article}
+ 
 \usepackage{multicol}
 \usepackage[margin=1in]{geometry}
-\renewcommand{\thesection}{\Roman{section}} 
+\renewcommand{\thesection}{\Roman{section}}
 \usepackage{sectsty}
 \allsectionsfont{\mdseries}
 \usepackage{microtype}
@@ -16,103 +16,161 @@
 \usepackage{capt-of}
 \usepackage[font={small}]{caption}
 \usepackage{fancyhdr}
-
+\usepackage{gensymb}
+\usepackage{setspace}
+\usepackage{titlesec}
 \newcolumntype{A}{D{.}{.}{2.5}}
-\graphicspath{ {images/} }
-
-\chead[evek]{odd}
-
+\graphicspath{ {images/}}
+\setlength{\headheight}{0pt}
+\titlespacing\section{0pt}{0pt plus 0pt minus 0pt}{0pt plus 0pt minus 0pt}
+\titlespacing\subsection{0pt}{0pt plus 0pt minus 0pt}{0pt plus 0pt minus 0pt}
+ 
+\singlespace
+ 
+\setlength{\columnsep}{0.5 in}
+ 
 \begin{document}  
-
-\pagenumbering{gobble}
-
-\thispagestyle{empty}
-
-\begin{center}
-\huge
-\textsc{Analysis of Soup Can Roll}
-{\large\centering
-\newline
-\newline
-\textsc{M. Kim\\}
-\textit{\footnotesize Data Processing\\}
-\large
-\textsc{A. Lee\\}
-\textit{\footnotesize Lab Technician\\}
-\large
-\textsc{D. Pekar\\}
-\textit{\footnotesize Paper Formatting\\}
-\large
-\textsc{K. Pulogarajah\\}
-\textit{\footnotesize Token Brown Guy\\}
-\large
-\textsc{G. Winch\\}
-\textit{\footnotesize The Entire Lab\\}
-\vspace{3mm}
-\footnotesize
-(Received 5 October 2015)\\}
-\end{center}
-
-\footnotesize
-\begin{quotation}
-\addtolength{\oddsidemargin}{-.875in}
-\addtolength{\evensidemargin}{-.875in}
-\addtolength{\textwidth}{1.75in}
-
-\addtolength{\topmargin}{-.875in}
-\addtolength{\textheight}{1.75in}
-
-%got to fix this so that the margins are correct
-
-ABSTRACT TEXT
-\end{quotation}
-\large
-\begin{multicols*}{2}
-	\begin{center}
-		\section{\textsc{Observation}}
-	\end{center}
-	Section content
-	\vspace{5mm}\\
-	\small
-	\extrarowsep=_3pt^3pt
-	\begin{tabu}to\linewidth{|[2.75pt gray]@{}c@{}|X[1,c]|X[1,c]|X[1,c]|[2.75pt gray]}
-		\tabucline[2.75pt gray]-
-		\textsc{Index} & \textsc{Distance} \newline (m) & \textsc{Velocity} \newline (m s$^{-1}$) & \textsc{Acceleration} \newline (m s$^{-2}$) \\ \hline
-		1 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
-		2 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
-		3 & 1$\pm  2$ & 1$\pm  2$ & 1$\pm  2$ \\ \hline
-		\tabucline[2.75pt gray]-
-	\end{tabu}
-	\captionof{figure}{\small dakfig1}\label{fig:a}
-	\vspace{2mm}
-	
-	\normalsize
-	\blindtext
-	\begingroup
-	\includegraphics[width=10cm]{velocity}
-	\footnotesize
-	\captionof{figure}{\small DakCamptio}\label{fig:c}
-	\endgroup
-	\normalsize
-	\vspace{5mm}
-	lahlah
-	\blindtext[20]
-	
-\end{multicols*}
-
-
-\begin{table}
-	\begin{minipage}[b]{0.5\linewidth}
-		
-	\end{minipage}
-	\hspace{0.5cm}
-\end{table}
-
-
-
+       
+       % ----- HEADERS -----
+       
+        \thispagestyle{empty}
+        \pagestyle{fancy}
+        \cfoot{}
+        \renewcommand{\headrulewidth}{0pt}
+        \chead[\textit{Kim et al.}]{\textit{TITLE}} 
+        \lhead[\thepage]{}
+        \rhead[]{\thepage}
+        
+        % ----- TITLE + NAMES ----- JOBS ARE: Data Analyst, Data Recorder, Data Processor, Theoretical Analyst
+        
+        \begin{center}
+                \huge
+                \textsc{TITLE}
+                {\large\centering
+                        \newline
+                        \newline
+                        \textsc{M. Kim\\}
+                        \textit{\footnotesize JOB\\}
+                        \large
+                        \textsc{A. Lee\\}
+                        \textit{\footnotesize JOB\\}
+                        \large
+                        \textsc{D. Pekar\\}
+                        \textit{\footnotesize JOB\\}
+                        \large
+                        \textsc{K. Pulogarajah\\}
+                        \textit{\footnotesize JOB\\}
+                        \large
+                        \textsc{G. Winch\\}
+                        \textit{\footnotesize JOB\\}
+                        \vspace{3mm}
+                        \footnotesize
+                        (Received 6 October 2015)\\}
+        \end{center}
+        
+        % ----- ABSTRACT -----
+        
+        \footnotesize
+        \begin{quotation}
+                \addtolength{\oddsidemargin}{-.875in}
+                \addtolength{\evensidemargin}{-.875in}
+                \addtolength{\textwidth}{1.75in}
+                \addtolength{\topmargin}{-.875in}
+                \addtolength{\textheight}{1.75in}
+	               ABSTRACT
+        \end{quotation}
+        
+        % ---- BODY -----
+        
+        \fontsize{3.8mm}{1em}\selectfont
+        \begin{multicols*}{2}
+                \section*{\centering\normalsize{\textsc{I Introduction}}}
+                \fontsize{3.8mm}{1em}\selectfont
+                \qquad
+               
+                INTRODUCTION \\
+               
+                \section*{\centering\normalsize{\textsc{II Theory}}}
+                \fontsize{3.8mm}{1em}\selectfont
+                \qquad
+                
+                THEORY\\                                      
+                                                     
+                \section*{\centering\normalsize{\textsc{III Method}}}
+                \fontsize{3.8mm}{1em}\selectfont
+                \qquad
+                METHOD
+               
+                \section*{\centering\normalsize{\textsc{IV Data}}}
+                \fontsize{3.8mm}{1em}\selectfont
+                \qquad 
+                DATA\\\\
+                                                             
+                \section*{\centering\normalsize{\textsc{V Analysis}}}
+                \fontsize{3.8mm}{1em}\selectfont
+	            \qquad
+	            ANALYSIS
+               
+                \section*{\centering\normalsize{\textsc{VI Sources of Error}}}
+                \fontsize{3.8mm}{1em}\selectfont
+                \qquad 
+                
+                SOURCES OF ERROR
+                      
+                \section*{\centering\normalsize{\textsc{VII Conclusion}}}
+                \fontsize{3.8mm}{1em}\selectfont
+                \qquad 
+                
+                CONCLUSION
+               
+                \section*{\centering\normalsize{\textsc{VIII Sources}}}
+               
+                \footnotesize
+                \textit{Halliday \& Resnick, ”Fundamentals of Physics 9$^{th}$ Ed”, 2011} \\
+                \textit{van Bemmel, H., ”Circular Rotation Lecture”, 2015}
+               
+        \end{multicols*}
+       
 \end{document}
 
-%each section is section (1 2 3 etc)
-%abstract is subparagraph
+% ===== TABLE =====
 
-%title is done
+%\vspace{4mm}
+%\extrarowsep=_3pt^3pt
+%\begin{tabu}to\linewidth{|[2.75pt gray]@{}c@{}|X[1,c]|X[1,c]|[2.75pt gray]}
+%	\tabucline[2.75pt gray]-
+%	\textsc{} & \textsc{Cream} & \textsc{Consomme} \\ \hline
+%	Mass(g) & 345.2$\pm  .2$ & 343.6$\pm  .2$ \\ \hline
+%	Diameter(mm) & 66.14$\pm  .02$ & 66.14$\pm  .02$  \\ \hline
+%	Height(cm) & 95.42$\pm  .02$ & 95.42$\pm  .02$  \\ \hline
+%	R$_Sh$ S$_T$(m) & 1.7$\pm  .1$ & 2.2$\pm  .1$  \\ \hline
+%	R$_St$ S$_T$(m) & 5.2$\pm  .4$ & 2.9$\pm  .2$  \\ \hline
+%	\tabucline[2.75pt gray]-
+%\end{tabu}
+%\captionof{figure}{\footnotesize This table shows the mean data for the mass, diameter, height, rolling distance on shallow slope, and rolling distance on steep slope respectively for each can of soup}\label{fig:a}
+
+% ===== SUBSECTION =====
+
+%            \subsection*{\centering{\textsc{5.3 Regression Analysis}}}
+
+% ===== GRAPH/PICTURE =====
+%  \fontsize{3.8mm}{1em}\selectfont
+%  \begingroup
+%  \includegraphics[width=7cm]{piecewise}
+%  \footnotesize
+%  \endgroup
+%  \fontsize{3.8mm}{1em}\selectfont  
+
+% ===== MATH =====
+%\makebox[\columnwidth][c]{$ MATH $}%
+%\makebox[0pt][r]{\texttt{[1]}}
+%
+%\footnotesize
+%\begin{flushright}
+%	\textit{(SOURCE)}
+%\end{flushright}
+%Where:\\
+%T = Total Kinetic Energy (J)\\
+%m = Mass of the object (kg)\\
+%I = Rotational Inertia (kg m$^{2}$)\\
+%     SYMBOL = WHAT IT REPRESENTS
