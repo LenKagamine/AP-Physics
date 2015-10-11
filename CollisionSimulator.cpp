@@ -16,6 +16,7 @@ class ball{ //Ball
 public:
     double sx, sy;
     double vx, vy;
+    double ax, ay;
     double m; // = 57.2; // Yellow ball is 57.2 +- .1
     double k;
     double r;
@@ -28,21 +29,25 @@ public:
         this->sy = sy;
         this->vx = vx;
         this->vy = vy;
+        ax = ay = 0;
         this->m = m;
         this->k = k;
         this->r = r;
     }
+    
+    void addForce(force f){
+    	ax += f.x / m;
+    	ay += f.y / m;
+    }
 
-    void applyForce(double fx, double fy, double dt){ //Apply force to ball
-        double ax = fx / m;
-        double ay = fy / m;
+    void update(double dt){ //Apply force to ball
         vx += ax*dt;
         vy += ay*dt;
         sx += vx*dt;
         sy += vy*dt;
+        ax = ay = 0;
     }
 };
-
 istream &operator >>(istream &input, ball &b){ //Input
 	input >> b.sx >> b.sy >> b.vx >> b.vy >> b.m >> b.k >> b.r;
 	return input;
@@ -51,10 +56,6 @@ ostream &operator <<(ostream &output, ball &b){ //Output
     output << "s = (" << b.sx << "," << b.sy <<")\n";
     output << "v = (" << b.vx << "," << b.vy <<")\n";
 	return output;
-}
-
-bool running(ball b1, ball b2, double t){ //Whether to keep on running simulation
-    return t < 4;
 }
 
 force getForce(ball b1, ball b2){ //Get force from collision
@@ -68,28 +69,37 @@ force getForce(ball b1, ball b2){ //Get force from collision
     return force(fmag*dx/d,fmag*dy/d);
 }
 
+bool running(vector<ball> balls, double t){ //Whether to keep on running simulation
+    return t < 4;
+}
+
 int main(){
     double t = 0;
     double dt = 0.05;
-    ball b1, b2;
-
-    cout<<"Enter ball 1:\n";
-    cin >> b1;
-    cout<<"Enter ball 2:\n";
-    cin >> b2;
-
-    while(running(b1, b2, t)){
-        force f = getForce(b1,b2);
-
-        b1.applyForce(f.x,f.y,dt);
-        b2.applyForce(-f.x,-f.y,dt);
-
-        cout << "t = " << t << ":\n";
-        cout << "Ball 1:\n" << b1;
-        cout << "Ball 2:\n" << b2;
-        cout << endl;
-
-        t += dt;
+    int num;
+    cout << "Number of balls: ";
+    cin >> num;
+    vector<ball> balls(num);
+    for(int i=0; i<num; ++i){
+      	cout << "Enter ball " << i+1 << "\n";
+      	cin >> balls[i];
+    }
+	
+	for(double t=0; running(balls, t); t+=dt){
+        for(int i=0; i<num; ++i){
+            for(int j=0; j<num; ++j){
+                if(i != j){
+                    force f = getForce(balls[i], balls[j]);
+                    balls[i].addForce(f);
+                }
+            }
+        }
+        
+		cout << "t = " << t << ":\n";
+		for(int i=0; i<num; ++i){
+            balls[i].update(dt);
+        	cout << "Ball " << i+1 << ":\n" << balls[i];
+		}
     }
     return 0;
 }
