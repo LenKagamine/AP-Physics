@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <fstream>
+
 using namespace std;
 
 class force{ //Force
@@ -14,15 +16,17 @@ public:
 
 class ball{ //Ball
 public:
-    double sx, sy;
+    double sx, sy; //Translational motion
     double vx, vy;
     double ax, ay;
-    double m; // = 57.2; // Yellow ball is 57.2 +- .1
+    double omega, alpha; //Rotational motion
+    double m; // Yellow ball is 57.2 +- .1
     double k;
     double r;
+    double inertia;
 
     ball(){ //Default constructor
-        sx = sy = vx = vy = m = k = r = 0;
+        sx = sy = vx = vy = m = k = r = omega = alpha = inertia = 0;
     }
     ball(double sx, double sy, double vx, double vy, double m, double k, double r){ //Constructor
         this->sx = sx;
@@ -30,31 +34,52 @@ public:
         this->vx = vx;
         this->vy = vy;
         ax = ay = 0;
+    	omega = alpha = 0;
         this->m = m;
         this->k = k;
         this->r = r;
+        inertia = 2*m*r*r/5;
     }
-    
-    void addForce(force f){
+
+    void addForce(force f){ //Apply force
     	ax += f.x / m;
     	ay += f.y / m;
     }
 
-    void update(double dt){ //Apply force to ball
+    void applyTorque(double f, double theta){ //Apply torque
+        alpha = f * r * sin(theta) / inertia;
+    }
+
+    void update(double dt){ //Update ball with forces
         vx += ax*dt;
         vy += ay*dt;
         sx += vx*dt;
         sy += vy*dt;
         ax = ay = 0;
+
+        omega += alpha*dt;
+        alpha = 0;
     }
 };
 istream &operator >>(istream &input, ball &b){ //Input
-	input >> b.sx >> b.sy >> b.vx >> b.vy >> b.m >> b.k >> b.r;
+    cout << "sx: ";
+	input >> b.sx;
+    cout << "sy: ";
+	input >> b.sy;
+    cout << "vx: ";
+    input >> b.vx;
+    cout << "vy: ";
+    input >> b.vy;
+    cout << "m: ";
+    input >> b.m;
+    cout << "k: ";
+    input >> b.k;
+    cout << "r: ";
+    input >> b.r;
 	return input;
 }
 ostream &operator <<(ostream &output, ball &b){ //Output
-    output << "s = (" << b.sx << "," << b.sy <<")\n";
-    output << "v = (" << b.vx << "," << b.vy <<")\n";
+    output << b.sx << "," << b.sy << "," << b.vx << "," << b.vy;
 	return output;
 }
 
@@ -74,17 +99,27 @@ bool running(vector<ball> balls, double t){ //Whether to keep on running simulat
 }
 
 int main(){
-    double t = 0;
-    double dt = 0.05;
+    double dt = 0.0001;
     int num;
     cout << "Number of balls: ";
     cin >> num;
     vector<ball> balls(num);
     for(int i=0; i<num; ++i){
-      	cout << "Enter ball " << i+1 << "\n";
+      	cout << "Enter ball " << i+1 << ":\n";
       	cin >> balls[i];
     }
-	
+
+	ofstream output("data.csv");
+	if(!output) cout << "Output file notcreated.";
+	output << "t";
+	for(int i=1; i<=num; ++i){
+        output << ",sx" << i;
+        output << ",sy" << i;
+        output << ",vx" << i;
+        output << ",vy" << i;
+	}
+	output << endl;
+
 	for(double t=0; running(balls, t); t+=dt){
         for(int i=0; i<num; ++i){
             for(int j=0; j<num; ++j){
@@ -94,12 +129,19 @@ int main(){
                 }
             }
         }
-        
-		cout << "t = " << t << ":\n";
+
+		output << t;
 		for(int i=0; i<num; ++i){
             balls[i].update(dt);
-        	cout << "Ball " << i+1 << ":\n" << balls[i];
+        	output << "," << balls[i];
 		}
+		output << endl;
     }
+
+    cout << "Simulation complete.\nFinal values:\n";
+    for(int i=0; i<num; ++i){
+        cout << i+1 << ": " << balls[i] << endl;
+    }
+    output.close();
     return 0;
 }
