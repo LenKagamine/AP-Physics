@@ -1,176 +1,135 @@
-\documentclass[12pt,notitlepage,twoside]{article}
- 
-\usepackage{multicol}
-\usepackage[margin=1in]{geometry}
-\renewcommand{\thesection}{\Roman{section}}
-\usepackage{sectsty}
-\allsectionsfont{\mdseries}
-\usepackage{microtype}
-\usepackage{mathpazo}
-\usepackage{amsmath,array,graphicx}
-\usepackage{tabu}
-\usepackage{xcolor}
-\usepackage{dcolumn}
+\documentclass[12pt,twoside]{article}
+\usepackage{multicol} % Multi column format
+\usepackage[margin=1in]{geometry} % 1in margins
+\usepackage{mathptmx} % Times font
+\usepackage{fancyhdr} % Custom header
+\setlength{\columnsep}{0.5 in} % Column seperation
+\linespread{0.9} % Smaller line spacing
+
+\usepackage{sectsty} % For \allsectionsfont
+\allsectionsfont{\normalsize\centering\mdseries} % All default (medium)
+
+\usepackage{graphicx} % Graphics for \graphicspath
+\graphicspath{{images/}} % Images directory
+
+\usepackage[compact]{titlesec} % Section header spacing
+\titlespacing{\section}{0pt}{1ex}{0.5ex}
+\titlespacing{\subsection}{0pt}{1ex}{0.5ex}
+\titlespacing{\subsubsection}{0pt}{1ex}{0.5ex}
+
+\usepackage{tabu} % Tables
+\usepackage{xcolor} % Table coloring (grey)
+\usepackage[font=scriptsize]{caption} % Figure captions
+
+\newcounter{EqnNum} % Equations, counter
+\newcommand{\eqn}[3]{ % Equation macro
+	\stepcounter{EqnNum}
+	\vspace{3mm}
+	\noindent\parbox{.667\columnwidth}{\hfill#1\hfill}\parbox{.333\columnwidth}{\hfill[\theEqnNum]}
+	\begin{flushright}
+		\scriptsize(#2)
+	\end{flushright}
+	\footnotesize\vspace{-3mm}Where:\par#3\vspace{3mm}
+	\normalsize
+}
+
+\renewcommand{\figurename}{Fig} % Caption name
+\newcommand{\img}[2]{ % Figure macro with caption
+	\begingroup
+	\noindent\centering\includegraphics[width=\columnwidth]{#1}
+	\def\temp{#2}\ifx\temp\empty\else
+	\vspace{-7mm}
+	\captionof{figure}{\scriptsize #2}
+	\fi
+	\vspace{1ex}
+	\endgroup
+}
+
 \usepackage{blindtext}
-\usepackage{ragged2e}
-\usepackage{capt-of}
-\usepackage[font={small}]{caption}
-\usepackage{fancyhdr}
-\usepackage{gensymb}
-\usepackage{setspace}
-\usepackage{titlesec}
-\newcolumntype{A}{D{.}{.}{2.5}}
-\graphicspath{ {images/}}
-\setlength{\headheight}{0pt}
-\titlespacing\section{0pt}{0pt plus 0pt minus 0pt}{0pt plus 0pt minus 0pt}
-\titlespacing\subsection{0pt}{0pt plus 0pt minus 0pt}{0pt plus 0pt minus 0pt}
- 
-\singlespace
- 
-\setlength{\columnsep}{0.5 in}
- 
-\begin{document}  
-       
-       % ----- HEADERS -----
-       
-        \thispagestyle{empty}
-        \pagestyle{fancy}
-        \cfoot{}
-        \renewcommand{\headrulewidth}{0pt}
-        \chead[\textit{Kim et al.}]{\textit{TITLE}} 
-        \lhead[\thepage]{}
-        \rhead[]{\thepage}
-        
-        % ----- TITLE + NAMES ----- JOBS ARE: Data Analyst, Data Recorder, Data Processor, Theoretical Analyst
-        
-        \begin{center}
-                \huge
-                \textsc{TITLE}
-                {\large\centering
-                        \newline
-                        \newline
-                        \textsc{M. Kim\\}
-                        \textit{\footnotesize JOB\\}
-                        \large
-                        \textsc{A. Lee\\}
-                        \textit{\footnotesize JOB\\}
-                        \large
-                        \textsc{D. Pekar\\}
-                        \textit{\footnotesize JOB\\}
-                        \large
-                        \textsc{K. Pulogarajah\\}
-                        \textit{\footnotesize JOB\\}
-                        \large
-                        \textsc{G. Winch\\}
-                        \textit{\footnotesize JOB\\}
-                        \vspace{3mm}
-                        \footnotesize
-                        (Received 6 October 2015)\\}
-        \end{center}
-        
-        % ----- ABSTRACT -----
-        
-        \footnotesize
-        \begin{quotation}
-                \addtolength{\oddsidemargin}{-.875in}
-                \addtolength{\evensidemargin}{-.875in}
-                \addtolength{\textwidth}{1.75in}
-                \addtolength{\topmargin}{-.875in}
-                \addtolength{\textheight}{1.75in}
-	               ABSTRACT
-        \end{quotation}
-        
-        % ---- BODY -----
-        
-        \fontsize{3.8mm}{1em}\selectfont
-        \begin{multicols*}{2}
-                \section*{\centering\normalsize{\textsc{I Introduction}}}
-                \fontsize{3.8mm}{1em}\selectfont
-                \qquad
-               
-                INTRODUCTION \\
-               
-                \section*{\centering\normalsize{\textsc{II Theory}}}
-                \fontsize{3.8mm}{1em}\selectfont
-                \qquad
-                
-                THEORY\\                                      
-                                                     
-                \section*{\centering\normalsize{\textsc{III Method}}}
-                \fontsize{3.8mm}{1em}\selectfont
-                \qquad
-                METHOD
-               
-                \section*{\centering\normalsize{\textsc{IV Data}}}
-                \fontsize{3.8mm}{1em}\selectfont
-                \qquad 
-                DATA\\\\
-                                                             
-                \section*{\centering\normalsize{\textsc{V Analysis}}}
-                \fontsize{3.8mm}{1em}\selectfont
-	            \qquad
-	            ANALYSIS
-               
-                \section*{\centering\normalsize{\textsc{VI Sources of Error}}}
-                \fontsize{3.8mm}{1em}\selectfont
-                \qquad 
-                
-                SOURCES OF ERROR
-                      
-                \section*{\centering\normalsize{\textsc{VII Conclusion}}}
-                \fontsize{3.8mm}{1em}\selectfont
-                \qquad 
-                
-                CONCLUSION
-               
-                \section*{\centering\normalsize{\textsc{VIII Sources}}}
-               
-                \footnotesize
-                \textit{Halliday \& Resnick, ”Fundamentals of Physics 9$^{th}$ Ed”, 2011} \\
-                \textit{van Bemmel, H., ”Circular Rotation Lecture”, 2015}
-               
-        \end{multicols*}
-       
+\begin{document}
+	% Header
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+	\cfoot{}
+	\renewcommand{\headrulewidth}{0pt}
+	\chead[\textit{Kim et al}]{\textit{Dynamics of Fluids in Rolling Cylindrical Containers}}
+	\lhead[\thepage]{}
+	\rhead[]{\thepage}
+	
+	\begin{center} % Names and titles
+		\LARGE % Title 20pt
+		\textsc{Dynamics of Fluids in Rolling Cylindrical Containers}\\
+		
+		\normalsize % Members 12pt
+		\vspace{5mm}
+		\textsc{M. Kim}\\
+		\textit{\scriptsize Data Analyst}\\
+		\textsc{A. Lee}\\
+		\textit{\scriptsize Data Recorder}\\
+		\textsc{D. Pekar}\\
+		\textit{\scriptsize Theoretical Analyst}\\
+		\textsc{K. Pulogarajah}\\
+		\textit{\scriptsize Data Processor}\\
+		\textsc{G. Winch}\\
+		\textit{\scriptsize Theoretical Analyst}\\
+		\vspace{3mm}
+		\scriptsize % Date 8pt
+		(Received 6 October 2015)\\
+	\end{center}
+	
+	\begin{quotation} % Abstract
+		\scriptsize
+		\blindtext
+	\end{quotation}
+	
+	\begin{multicols*}{2} % Main
+		\captionsetup{width=0.9\columnwidth} % Caption width
+		
+		\section*{\textsc{I Introduction}}
+		\blindtext
+		
+		\eqn{$T = \frac{1}{2}mv^2 + I\omega^2$}{Halliday, 2011}
+		{T = Total Kinetic Energy (J)\\
+			\indent m = Mass of the object (kg)\\
+			\indent v = Linear velocity of object (ms$^{-1}$)\\
+			\indent I = Rotational Inertia (kg m$^{2}$)}
+		
+		\blindtext
+		
+		\begingroup
+		\noindent
+		\extrarowsep=_3pt^3pt
+		\begin{tabu} to \linewidth{|[2.75pt gray]@{}c@{}|X[1,c]|X[1,c]|[2.75pt gray]}
+			\tabucline[2.75pt gray]-
+			\textsc{} & \textsc{Cream} & \textsc{Consomme} \\ \hline
+			Mass(g) & 345.2$\pm  .2$ & 343.6$\pm  .2$ \\ \hline
+			Diameter(mm) & 66.14$\pm  .02$ & 66.14$\pm  .02$  \\ \hline
+			Height(cm) & 95.42$\pm  .02$ & 95.42$\pm  .02$  \\ \hline
+			R$_Sh$ S$_T$(m) & 1.7$\pm  .1$ & 2.2$\pm  .1$  \\ \hline
+			R$_St$ S$_T$(m) & 5.2$\pm  .4$ & 2.9$\pm  .2$  \\
+			\tabucline[2.75pt gray]-
+		\end{tabu}
+		\vspace{-3mm}
+		\captionof{figure}{\scriptsize Lorem ipsum dolor sit amet, consectutuer adipiscing elit. Etiam lobortis facilisis sem. Nullam nec mi et neque pharetra sollicitudin.}
+		\endgroup
+		
+		\img{Consomme2}{Lorem ipsum dolor sit amet, consectutuer adipiscing elit. Etiam lobortis facilisis sem. Nullam nec mi et neque pharetra sollicitudin.}
+		
+		\section*{\textsc{II Theory}}
+		
+		\section*{\textsc{III Method}}
+		
+		\section*{\textsc{IV Data}}
+		
+		\section*{\textsc{V Analysis}}
+		\subsection*{\textsc{5.1 Subsection}}	
+		
+		\section*{\textsc{VI Sources of Error}}
+		
+		\section*{\textsc{VII Conclusion}}
+		
+		\section*{\textsc{VIII Sources}}
+		\footnotesize
+		\textit{Halliday \& Resnick, ”Fundamentals of Physics 9$^{th}$ Ed”, 2011}
+	\end{multicols*}
 \end{document}
-
-% ===== TABLE =====
-
-%\vspace{4mm}
-%\extrarowsep=_3pt^3pt
-%\begin{tabu}to\linewidth{|[2.75pt gray]@{}c@{}|X[1,c]|X[1,c]|[2.75pt gray]}
-%	\tabucline[2.75pt gray]-
-%	\textsc{} & \textsc{Cream} & \textsc{Consomme} \\ \hline
-%	Mass(g) & 345.2$\pm  .2$ & 343.6$\pm  .2$ \\ \hline
-%	Diameter(mm) & 66.14$\pm  .02$ & 66.14$\pm  .02$  \\ \hline
-%	Height(cm) & 95.42$\pm  .02$ & 95.42$\pm  .02$  \\ \hline
-%	R$_Sh$ S$_T$(m) & 1.7$\pm  .1$ & 2.2$\pm  .1$  \\ \hline
-%	R$_St$ S$_T$(m) & 5.2$\pm  .4$ & 2.9$\pm  .2$  \\ \hline
-%	\tabucline[2.75pt gray]-
-%\end{tabu}
-%\captionof{figure}{\footnotesize This table shows the mean data for the mass, diameter, height, rolling distance on shallow slope, and rolling distance on steep slope respectively for each can of soup}\label{fig:a}
-
-% ===== SUBSECTION =====
-
-%            \subsection*{\centering{\textsc{5.3 Regression Analysis}}}
-
-% ===== GRAPH/PICTURE =====
-%  \fontsize{3.8mm}{1em}\selectfont
-%  \begingroup
-%  \includegraphics[width=7cm]{piecewise}
-%  \footnotesize
-%  \endgroup
-%  \fontsize{3.8mm}{1em}\selectfont  
-
-% ===== MATH =====
-%\makebox[\columnwidth][c]{$ MATH $}%
-%\makebox[0pt][r]{\texttt{[1]}}
-%
-%\footnotesize
-%\begin{flushright}
-%	\textit{(SOURCE)}
-%\end{flushright}
-%Where:\\
-%T = Total Kinetic Energy (J)\\
-%m = Mass of the object (kg)\\
-%I = Rotational Inertia (kg m$^{2}$)\\
-%     SYMBOL = WHAT IT REPRESENTS
