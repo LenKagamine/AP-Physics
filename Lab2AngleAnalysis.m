@@ -45,6 +45,9 @@ zlabel('Period (s)');
 view(3);
 hold on
 
+% Create line formats
+linespec = 'rgb';
+
 % Create output structures
 theta = zeros(1117, sum(samples));
 leng = zeros(1117, sum(samples));
@@ -78,28 +81,30 @@ for i = 1:numel(lastline);
     thetai = acos(1 - h./L(i))/pi*180;
 
     % Store Output
-    ti = ti(1:2:end-1);
+    ti = ti(1:2:end-1); % Time 
     t(1:numel(ti), i) = ti;
     t(t(:,i)==0,i) = ti(end);
     
-    theta(1:numel(thetai), i) = thetai;
+    theta(1:numel(thetai), i) = thetai; % Angle
     theta(theta(:,i)==0,i) = thetai(end);
     
-    Ti = Ti(5:4:end-1);
+    Ti = Ti(5:4:end-1); % Period
     T(1:numel(Ti), i) = Ti;
     T(T(:,i)==0,i) = Ti(end);
     
-    % Plot output
-    leng(:,i) = zeros(1117,1) + L(i);
+    leng(:,i) = zeros(1117,1) + L(i); % Length of pendulum
     
-%     figure(angvst);
-%     plot3(ti(1:2:end-1), leng, thetai);
-% 
-%     figure(pervsang);
-%     plot3(thetai(3:2:end),leng(3:2:end),Ti(5:4:end-1));
-%     
-%     figure(pervstime);
-%     plot3(ti(5:4:end-1),leng(3:2:end),Ti(5:4:end-1));
+    % Plot output
+    lengi = zeros(size(ti)) + L(i);
+    
+    figure(angvst);
+    plot3(ti, lengi, thetai, linespec(type(i)+1));
+
+    figure(pervsang);
+    plot3(thetai(3:2:end),lengi(3:2:end),Ti, linespec(type(i)+1));
+    
+    figure(pervstime);
+    plot3(ti(3:2:end),lengi(3:2:end),Ti, linespec(type(i)+1));
 end
 
 % Create Legend
@@ -111,22 +116,22 @@ leg(type == 2) = {'Copper'};
 
 % Format Graphs 
 figure(angvst);
-for ty = 0:2
-    plot3(t(:,type==ty), leng(:,type==ty), theta(:,type==ty));
-end
+% for ty = 0:2
+%     plot3(t(:,type==ty), leng(:,type==ty), theta(:,type==ty));
+% end
 % legend(leg);
-legend('wood', 'alum', 'copper');
+legend('wood', 'copper',  'alum');
 
 figure(pervsang);
-for ty = 0:2
-    plot3(theta(3:2:end,type==ty), leng(3:2:end,type==ty), T(:,type==ty));
-end
+% for ty = 0:2
+%     plot3(theta(3:2:end,type==ty), leng(3:2:end,type==ty), T(:,type==ty));
+% end
 % legend(leg);
-legend('wood', 'alum', 'copper');
+legend('wood', 'copper',  'alum');
 
 figure(pervstime);
-for ty = 0:2
-    plot3(t(3:2:end,type==ty), leng(3:2:end,type==ty), T(:,type==ty));
-end
+% for ty = 0:2
+%     plot3(t(3:2:end,type==ty), leng(3:2:end,type==ty), T(:,type==ty));
+% end
 % legend(leg);
-legend('wood', 'alum', 'copper');
+legend('wood', 'copper',  'alum');
