@@ -1,6 +1,6 @@
 % Script to Calculate Angle from a set of Time data
-dates = {'Oct19sample', 'Oct20sample', 'Oct21sample', 'Oct22sample', 'Oct23sample'};
-samples = [3 6 6 6 4];
+dates = {'Oct20sample', 'Oct21sample', 'Oct22sample', 'Oct23sample'}; %'Oct19sample', 'Oct20sample', 'Oct21sample', 'Oct22sample', 'Oct23sample'
+samples = [6 6 6 4]; %3 6 6 6 4
 names = cell(1, sum(samples));
 
 % Create file names
@@ -12,13 +12,13 @@ for d = 1:numel(samples)
     end
 end
 
-filename = struct;
+% filename = struct;
 
 type = zeros(size(names));
 lastline = zeros(size(names)); %[1567 1568 1564 1564 1558 1568];
 wid = 0.0277;
 m = 1;
-L =  zeros(size(names)); %[0.4087 0.4087 0.4087 0.4087 0.4087 0.4087];
+L =  zeros(size(names)) + 0.1997; %[0.4087 0.4087 0.4087 0.4087 0.4087 0.4087];
 
 % Set up figures
 angvst = figure;
@@ -54,26 +54,36 @@ leng = zeros(1117, sum(samples));
 t = zeros(1117, sum(samples));
 T = zeros(558, sum(samples));
 
+excels = cell(4,3); % 4 lengths, 3 masses
+
 for i = 1:numel(lastline);
     fi = ['f' int2str(i)];
-    filename.(fi) = strcat('Data/', names(i), '.csv');
+    filename = strcat('Data/', names(i), '.csv');
     
     % Read info
-    type(i) = csvread(filename.(fi){1}, 1, 3, [1 3 1 3]);
-    L(i) = csvread(filename.(fi){1}, 1, 4, [1 4 1 4]);
-    lastline(i) = csvread(filename.(fi){1}, 1, 5, [1 5 1 5]);
+    type(i) = csvread(filename{1}, 1, 3, [1 3 1 3]);
+    L(i) = csvread(filename{1}, 1, 4, [1 4 1 4]);
+    lastline(i) = csvread(filename{1}, 1, 5, [1 5 1 5]);
     
-    ti = csvread(filename.(fi){1}, 1, 0, [1 0 lastline(i) 0]); % Time
-    state = csvread(filename.(fi){1}, 1, 1, [1 1 lastline(i) 1]); % State
-    Ti = csvread(filename.(fi){1}, 1, 2, [1 2 lastline(i) 2]); % Period
+    ti = csvread(filename{1}, 1, 0, [1 0 lastline(i) 0]); % Time
+    state = csvread(filename{1}, 1, 1, [1 1 lastline(i) 1]); % State
+    Ti = csvread(filename{1}, 1, 2, [1 2 lastline(i) 2]); % Period
 
     % Calculate v
     dt = diff(ti);
     v = wid./ dt(1:2:end);
 
+    % Calculate w
+    w = v./L(i);
+    
+    % Calculate I
+    I = 1/4*m*(wid/2)^2 + 1/12*m*0.0525^2 + m*L(i).^2;
+    
     % Calculate E
-    E = 0.5*m.*v.^2;
+%     E = 0.5*m.*v.^2;
+    E = 0.5*I.*w.^2;
 
+    
     % Calculate h
     h = E./m./9.8;
 
@@ -97,41 +107,46 @@ for i = 1:numel(lastline);
     % Plot output
     lengi = zeros(size(ti)) + L(i);
     
-    figure(angvst);
+    figure(angvst); % Angle versus time and length
     plot3(ti, lengi, thetai, linespec(type(i)+1));
 
-    figure(pervsang);
+    figure(pervsang); % period versus angle and length (this is the important one!)
     plot3(thetai(3:2:end),lengi(3:2:end),Ti, linespec(type(i)+1));
     
-    figure(pervstime);
+    figure(pervstime); % Period versus time and length
     plot3(ti(3:2:end),lengi(3:2:end),Ti, linespec(type(i)+1));
+    
+    % Add to excel files 
+    % Create length index
+    if L(i) == 0.2037 
+        lind = 1;
+    elseif L(i) == 0.3044 
+        lind = 2;
+    elseif L(i) == 0.4072
+        lind = 3;
+    elseif L(i) == 0.5095
+        lind = 4;
+    end
+        
+%     excels{lind, type(i)+1} = [excels{lind, type(i)+1}; [thetai(3:2:end) Ti]];
 end
 
-% Create Legend
-leg = cell(size(names));
-leg(type == 0) = {'Wood'};
-leg(type == 1) = {'Aluminum'};
-leg(type == 2) = {'Copper'};
-
+% output excels
+% for l = 1:4
+%     for m = 1:3
+%         filename = ['length' num2str(l) 'mass' num2str(m)];
+%         xlswrite(filename, excels{l,m});
+%     end
+% end
 
 % Format Graphs 
 figure(angvst);
-% for ty = 0:2
-%     plot3(t(:,type==ty), leng(:,type==ty), theta(:,type==ty));
-% end
-% legend(leg);
 legend('wood', 'copper',  'alum');
 
 figure(pervsang);
-% for ty = 0:2
-%     plot3(theta(3:2:end,type==ty), leng(3:2:end,type==ty), T(:,type==ty));
-% end
-% legend(leg);
+plot3(theta, leng, 2*pi.*sqrt(leng./9.8), 'k');
 legend('wood', 'copper',  'alum');
 
 figure(pervstime);
-% for ty = 0:2
-%     plot3(t(3:2:end,type==ty), leng(3:2:end,type==ty), T(:,type==ty));
-% end
-% legend(leg);
+plot3(t, leng, 2*pi.*sqrt(leng./9.8), 'k');
 legend('wood', 'copper',  'alum');
