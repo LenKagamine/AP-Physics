@@ -27,6 +27,7 @@ xlabel('Time (s)');
 ylabel('Length');
 zlabel('Angle (deg)');
 view(3);
+set(gca, 'FontSize', 30)
 hold on
 
 pervsang = figure;
@@ -35,6 +36,7 @@ xlabel('Angle (deg)');
 ylabel('Length');
 zlabel('Period (s)');
 view(3);
+set(gca, 'FontSize', 30)
 hold on
 
 pervstime = figure;
@@ -43,10 +45,11 @@ xlabel('Time (s)');
 ylabel('Length');
 zlabel('Period (s)');
 view(3);
+set(gca, 'FontSize', 30)
 hold on
 
 % Create line formats
-linespec = 'rgb';
+linespec = {'r--', 'g-.', 'b:'};
 
 % Create output structures
 theta = zeros(1117, sum(samples));
@@ -54,7 +57,8 @@ leng = zeros(1117, sum(samples));
 t = zeros(1117, sum(samples));
 T = zeros(558, sum(samples));
 
-excels = cell(4,3); % 4 lengths, 3 masses
+% excels = cell(4,1); % 4 lengths
+xls = [];
 
 for i = 1:numel(lastline);
     fi = ['f' int2str(i)];
@@ -75,6 +79,12 @@ for i = 1:numel(lastline);
 
     % Calculate w
     w = v./L(i);
+    
+    % Calculate m
+    if     type == 0; m = 0.0757;
+    elseif type == 1; m = 0.1303;
+    elseif type == 2; m = 0.2860;
+    end
     
     % Calculate I
     I = 1/4*m*(wid/2)^2 + 1/12*m*0.0525^2 + m*L(i).^2;
@@ -108,13 +118,13 @@ for i = 1:numel(lastline);
     lengi = zeros(size(ti)) + L(i);
     
     figure(angvst); % Angle versus time and length
-    plot3(ti, lengi, thetai, linespec(type(i)+1));
+    plot3(ti, lengi, thetai, linespec{type(i)+1}, 'LineWidth', 2);
 
     figure(pervsang); % period versus angle and length (this is the important one!)
-    plot3(thetai(3:2:end),lengi(3:2:end),Ti, linespec(type(i)+1));
+    plot3(thetai(3:2:end),lengi(3:2:end),Ti, linespec{type(i)+1}, 'LineWidth', 2);
     
     figure(pervstime); % Period versus time and length
-    plot3(ti(3:2:end),lengi(3:2:end),Ti, linespec(type(i)+1));
+    plot3(ti(3:2:end),lengi(3:2:end),Ti, linespec{type(i)+1}, 'LineWidth', 2);
     
     % Add to excel files 
     % Create length index
@@ -128,15 +138,21 @@ for i = 1:numel(lastline);
         lind = 4;
     end
         
-%     excels{lind, type(i)+1} = [excels{lind, type(i)+1}; [thetai(3:2:end) Ti]];
+    mi = zeros(size(Ti)) + m;
+    pert = Ti-2*pi*sqrt(lind/9.80665);
+    
+    xls = [xls; [thetai(3:2:end) thetai(3:2:end).^2 zeros(size(Ti))+lind Ti pert]];
+%     excels{lind,1} = [excels{lind,1}; [thetai(3:2:end) thetai(3:2:end).^2 Ti]];
 end
+
+xlswrite('Tfit2', xls);
 
 % output excels
 % for l = 1:4
-%     for m = 1:3
-%         filename = ['length' num2str(l) 'mass' num2str(m)];
-%         xlswrite(filename, excels{l,m});
-%     end
+% %     for m = 1:3
+%         filename = ['length' num2str(l)];% 'mass' num2str(m)];
+%         xlswrite(filename, excels{l,1});
+% %     end
 % end
 
 % Format Graphs 
