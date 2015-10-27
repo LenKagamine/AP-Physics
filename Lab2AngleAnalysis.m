@@ -1,12 +1,16 @@
 % Script to Calculate Angle from a set of Time data
-dates = {'Oct20sample', 'Oct21sample', 'Oct22sample', 'Oct23sample'}; %'Oct19sample', 'Oct20sample', 'Oct21sample', 'Oct22sample', 'Oct23sample'
-samples = [6 6 6 4]; %3 6 6 6 4
+dates = {'Oct21sample'}; %'Oct19sample', 'Oct20sample', 'Oct21sample', 'Oct22sample', 'Oct23sample'
+samples = [6]; %3 6 6 6 4
 names = cell(1, sum(samples));
 
 % Create file names
 i = 1;
 for d = numel(samples):-1:1
-    for s = samples(d):-1:1
+    for s = samples(d):-2:1
+        names(i) = strcat(dates(d), int2str(s));
+        i = i+1;
+    end
+    for s = samples(d)-1:-2:1
         names(i) = strcat(dates(d), int2str(s));
         i = i+1;
     end
@@ -22,34 +26,37 @@ L =  zeros(size(names)) + 0.1997; %[0.4087 0.4087 0.4087 0.4087 0.4087 0.4087];
 
 % Set up figures
 angvst = figure;
-title('Angle vs Time');
+title('Angle vs Time', 'FontWeight', 'normal');
 xlabel('Time (s)');
-ylabel('Length');
+ylabel('Length (m)');
 zlabel('Angle (deg)');
 view(3);
-set(gca, 'FontSize', 30)
+box on;
+set(gca, 'FontSize', 30, 'FontName', 'Times')
 hold on
 
 pervsang = figure;
-title('Period vs Angle');
-xlabel('Angle (deg)');
+title('Period vs Angle', 'FontWeight', 'normal');
+xlabel('Angle (deg) -->');
 ylabel('Length');
-zlabel('Period (s)');
+zlabel('Period (s) -->');
 view(3);
-set(gca, 'FontSize', 30)
+box on;
+set(gca, 'FontSize', 30, 'FontName', 'Times')
 hold on
 
 pervstime = figure;
-title('Period vs Time');
-xlabel('Time (s)');
+title('Period vs Time', 'FontWeight', 'normal');
+xlabel('Time (s) -->');
 ylabel('Length');
-zlabel('Period (s)');
+zlabel('Period (s) -->');
 view(3);
-set(gca, 'FontSize', 30)
+box on;
+set(gca, 'FontSize', 30, 'FontName', 'Times')
 hold on
 
 % Create line formats
-linespec = {'k--', 'k-.', 'k:'};
+linespec = {'k--', 'k-.', 'k-'};
 
 % Create output structures
 theta = zeros(1117, sum(samples));
@@ -131,7 +138,7 @@ for i = 1:numel(lastline);
     plot3(ti, lengi, thetai, linespec{type(i)+1}, 'LineWidth', 2);
 
     figure(pervsang); % period versus angle and length (this is the important one!)
-    plot3(thetai(3:2:end),lengi(3:2:end),Ti, linespec{type(i)+1}, 'LineWidth', 2);
+    plot3(thetai(3:2:end),lengi(3:2:end),Ti, linespec{type(i)+1}, 'LineWidth', 1.5);
     
     figure(pervstime); % Period versus time and length
     plot3(ti(3:2:end),lengi(3:2:end),Ti, linespec{type(i)+1}, 'LineWidth', 2);
@@ -148,7 +155,7 @@ for i = 1:numel(lastline);
     Li = zeros(size(thetai))+L(i);
     
     ti = ti - ti(theta0ind(1));
-    fitfunc = log(thetai ./ theta0).*2.*m.*L(i);
+    fitfunc = log(thetai ./ theta0).*2.*m./L(i);
     xls = [xls; [ti(usable) thetai(usable) fitfunc(usable) theta0(usable) mi(usable) Li(usable)]];
 %     xls = [xls; [thetai(3:2:end) thetai(3:2:end).^2 zeros(size(Ti))+L(i) Ti pert]];
 %     excels{L(i),1} = [excels{L(i),1}; [thetai(3:2:end) thetai(3:2:end).^2 Ti]];
@@ -160,18 +167,36 @@ end
 % for l = 1:4
 % %     for m = 1:3
 %         filename = ['length' num2str(l)];% 'mass' num2str(m)];
+
 %         xlswrite(filename, excels{l,1});
 % %     end
 % end
 
 % Format Graphs 
 figure(angvst);
-legend('wood', 'aluminum', 'copper');
+legend('wood', 'aluminum', 'copper', 'Location', 'northeast');
 
 figure(pervsang);
-plot3(theta, leng, 2*pi.*sqrt(leng./9.8), 'k');
-legend('wood', 'aluminum', 'copper');
+% plot3(theta, leng, 2*pi.*sqrt(leng./9.8), 'k:', 'LineWidth', 1.5);
+legend('wood', 'aluminum', 'copper', 'Location', 'east');
+view(0,0);
+xlim([0 80]);
+n = 0.8:0.2:1.6;
+labels = cell(size(n));
+for i = 1:numel(n)
+    labels{i} = sprintf('%.1f ',n(i));
+end
+set(gca,'ZTickLabel',labels);
 
 figure(pervstime);
-plot3(t, leng, 2*pi.*sqrt(leng./9.8), 'k');
-legend('wood', 'aluminum', 'copper');
+% plot3(t, leng, 2*pi.*sqrt(leng./9.8), 'k:', 'LineWidth', 1.5);
+legend('wood', 'aluminum', 'copper', 'Location', 'northeast');
+n=get(gca,'ZTick');
+n = 1.08:0.02:1.16;
+labels = cell(size(n));
+for i = 1:numel(n)
+    labels{i} = sprintf('%.2f ',n(i));
+end
+set(gca,'ZTickLabel',labels);
+% gca.YTickLabel = {'0.9', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '1.6'};
+view(0,0);
