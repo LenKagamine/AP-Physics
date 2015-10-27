@@ -5,8 +5,8 @@ names = cell(1, sum(samples));
 
 % Create file names
 i = 1;
-for d = 1:numel(samples)
-    for s = 1:samples(d)
+for d = numel(samples):-1:1
+    for s = samples(d):-1:1
         names(i) = strcat(dates(d), int2str(s));
         i = i+1;
     end
@@ -49,7 +49,7 @@ set(gca, 'FontSize', 30)
 hold on
 
 % Create line formats
-linespec = {'r--', 'g-.', 'b:'};
+linespec = {'k--', 'k-.', 'k:'};
 
 % Create output structures
 theta = zeros(1117, sum(samples));
@@ -73,6 +73,16 @@ for i = 1:numel(lastline);
     state = csvread(filename{1}, 1, 1, [1 1 lastline(i) 1]); % State
     Ti = csvread(filename{1}, 1, 2, [1 2 lastline(i) 2]); % Period
 
+    if L(i) == 0.2037 
+        L(i) = 0.2011;
+    elseif L(i) == 0.3044 
+        L(i) = 0.3005;
+    elseif L(i) == 0.4072
+        L(i) = 0.4006;
+    elseif L(i) == 0.5095
+        L(i) = 0.5033;
+    end
+    
     % Calculate v
     dt = diff(ti);
     v = wid./ dt(1:2:end);
@@ -81,9 +91,9 @@ for i = 1:numel(lastline);
     w = v./L(i);
     
     % Calculate m
-    if     type == 0; m = 0.0757;
-    elseif type == 1; m = 0.1303;
-    elseif type == 2; m = 0.2860;
+    if     type(i) == 0; m = 0.0757;
+    elseif type(i) == 1; m = 0.1303;
+    elseif type(i) == 2; m = 0.2860;
     end
     
     % Calculate I
@@ -128,24 +138,23 @@ for i = 1:numel(lastline);
     
     % Add to excel files 
     % Create length index
-    if L(i) == 0.2037 
-        lind = 1;
-    elseif L(i) == 0.3044 
-        lind = 2;
-    elseif L(i) == 0.4072
-        lind = 3;
-    elseif L(i) == 0.5095
-        lind = 4;
-    end
         
-    mi = zeros(size(Ti)) + m;
-    pert = Ti-2*pi*sqrt(lind/9.80665);
+    usable = thetai < 14;
     
-    xls = [xls; [thetai(3:2:end) thetai(3:2:end).^2 zeros(size(Ti))+lind Ti pert]];
-%     excels{lind,1} = [excels{lind,1}; [thetai(3:2:end) thetai(3:2:end).^2 Ti]];
+    mi = zeros(size(thetai)) + m;
+    pert = Ti-2*pi*sqrt(L(i)/9.80665);
+    theta0ind = find(usable);
+    theta0 = zeros(size(thetai))+thetai(theta0ind(1));
+    Li = zeros(size(thetai))+L(i);
+    
+    ti = ti - ti(theta0ind(1));
+    fitfunc = log(thetai ./ theta0).*2.*m.*L(i);
+    xls = [xls; [ti(usable) thetai(usable) fitfunc(usable) theta0(usable) mi(usable) Li(usable)]];
+%     xls = [xls; [thetai(3:2:end) thetai(3:2:end).^2 zeros(size(Ti))+L(i) Ti pert]];
+%     excels{L(i),1} = [excels{L(i),1}; [thetai(3:2:end) thetai(3:2:end).^2 Ti]];
 end
 
-xlswrite('Tfit2', xls);
+% xlswrite('kfitUsable', xls);
 
 % output excels
 % for l = 1:4
@@ -157,12 +166,12 @@ xlswrite('Tfit2', xls);
 
 % Format Graphs 
 figure(angvst);
-legend('wood', 'copper',  'alum');
+legend('wood', 'aluminum', 'copper');
 
 figure(pervsang);
 plot3(theta, leng, 2*pi.*sqrt(leng./9.8), 'k');
-legend('wood', 'copper',  'alum');
+legend('wood', 'aluminum', 'copper');
 
 figure(pervstime);
 plot3(t, leng, 2*pi.*sqrt(leng./9.8), 'k');
-legend('wood', 'copper',  'alum');
+legend('wood', 'aluminum', 'copper');
