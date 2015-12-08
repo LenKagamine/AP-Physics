@@ -4,4 +4,6 @@ Code written during the AP Physics course.
 - LaTeX template of lab report
 - Matlab script for interpolation of Soup Can Roll data (Lab 1)
 - C++ 2D collision simulator (Lab 1A)
-- Arduino + Java Wind Tunnel GUI (Summative)
+- Summative Code
+  - Arduino + Java Wind Tunnel GUI
+  - Testing code of components
