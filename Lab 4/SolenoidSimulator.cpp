@@ -15,10 +15,10 @@ double mu = 0.00000125663;  //vacuum permeability
 double i = 0.5733;             //current through coils
 double dt = 0.000002;       //dt for numerical integration
 
-double sizex = 0.24;            //length in x (cm)
-double sizey = 0.24;            //length in y (cm)
-double sizez = 0.24;            //length in z (cm)
-double scale = 100;             //unit conversion (cm -> m)
+double sizex = 0.24;            //length in x
+double sizey = 0.24;            //length in y
+double sizez = 0.24;            //length in z
+double scale = 100;             //unit conversion
 
 class Vector3D{ //3-D vector class
 public:
