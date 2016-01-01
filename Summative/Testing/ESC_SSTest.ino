@@ -7,8 +7,9 @@
 #define MAX_POW 2000
 
 Servo esc;
-int controlPin = 2;  //To ESC; Any PWM pin will work
-int potPin = A1;     //From poten; any pwm pin
+int controlPin = 9;  //To ESC
+int potPin = A1;     //From poten
+int ssPin = 13;      //To SS
 
 int pins[3][4] = {
 	{24, 23, 22, 25}, //Pins for MSD
@@ -28,10 +29,6 @@ void outNum(double num){ //Output 3 digit number as 3 * 4 bits
   digitalWrite(decPins[0], 0);
   digitalWrite(decPins[1], 0);
   if(num < 0) num *= -1;
-  else if(num < 10){
-    digitalWrite(decPins[0], 1);
-    num *= 100;
-  }
   else if(num < 100){
     digitalWrite(decPins[1], 1);
     num *= 10;
@@ -52,11 +49,14 @@ void setup(){
     }
   }
   for(int i=0;i<2;i++) pinMode(decPins[i], OUTPUT);
+  
+  pinMode(ssPin, OUTPUT);
+  digitalWrite(ssPin, HIGH);
 }
 
 void loop(){
   int power = analogRead(potPin);
-  outNum(map(power, 0, 1023, 0, 100));
+  outNum(power * 100.0 / 1023.0);
   
   Serial.print("Input: ");
   Serial.print(power);
